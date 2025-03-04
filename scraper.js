@@ -1,13 +1,16 @@
 import puppeteer from "puppeteer";
 import fs from 'fs';
+import dotenv from 'dotenv';
 
-const searchTerm = 'league of legends';
+dotenv.config();
+
+const searchTerm = process.env.SEARCH_TERM;
 
 const scrape = async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    const url = 'https://poptopiaph.com/collections/funko';
+    const url = process.env.SCRAPER_URL;
 
     await page.goto(url);
 
