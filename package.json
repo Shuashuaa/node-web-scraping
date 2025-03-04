@@ -1,0 +1,20 @@
+{
+  "name": "web-scraping-puppeteer",
+  "version": "1.0.0",
+  "description": "a web-scraping app using node.js with puppeteer and vitest for testing.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "scrape" : "node scraper.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^0.34.0",
+    "puppeteer": "^24.3.1",
+    "dotenv": "^16.4.7"
+  },
+  "dependencies": {}
+}
