@@ -24,8 +24,6 @@ describe('Scraper Tests', () => {
         const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            slowMo: 50, // Slow down the actions for better debugging
-            devtools: true, // Open devtools for debugging in CI
         });
         page = await browser.newPage();
     });
