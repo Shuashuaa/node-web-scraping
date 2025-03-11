@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funko Pop Items</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #pop-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            max-width: 1200px; /* Optional: max width of the container */
+            padding: 20px;
+        }
+
+        .pop-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            width: calc(20% - 40px); /* 5 items per row */
+            box-sizing: border-box;
+            border-radius: 8px;
+        }
+
+        .pop-item img {
+            width: 125px;
+            height: 125px;
+            object-fit: contain;
+        }
+
+        .pop-item img.grayscale {
+            filter: grayscale(100%); /* Apply grayscale filter */
+        }
+
+        .pop-item h3 {
+            margin: 10px 0;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .pop-item p {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .sold-out {
+            color: red;
+            font-weight: bold;
+        }
+
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+
+        /* Responsive design: adjust the number of items per row */
+        @media (max-width: 1200px) {
+            .pop-item {
+                width: calc(25% - 40px); /* 4 items per row */
+            }
+        }
+
+        @media (max-width: 900px) {
+            .pop-item {
+                width: calc(33.33% - 40px); /* 3 items per row */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .pop-item {
+                width: calc(50% - 40px); /* 2 items per row */
+            }
+        }
+
+        @media (max-width: 400px) {
+            .pop-item {
+                width: 100%; /* 1 item per row */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Funko Pop Items</h1>
+    <div id="pop-list"></div>
+
+    <script>
+        // Fetch JSON data from the links.json file
+        fetch('links.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayPopItems(data);
+            })
+            .catch(error => {
+                console.error('Error fetching the JSON:', error);
+            });
+
+        // This function will render the Pop items
+        function displayPopItems(data) {
+            const popList = document.getElementById('pop-list');
+            popList.innerHTML = '';  // Clear the container before adding new items
+
+            data.forEach(item => {
+
+                const imageUrl = 'https://' + item.popImage;
+                const imgElement = document.createElement('img')
+                imgElement.src = imageUrl
+                imgElement.alt = item.popTitle
+
+                if(item.isSoldOut == 'Sold Out'){
+                    imgElement.classList.add('grayscale');
+                }
+
+                const statusClass = item.isSoldOut === "Sold Out" ? "sold-out" : "available";
+
+                const popItemDiv = document.createElement('div');
+                popItemDiv.classList.add('pop-item');
+                popItemDiv.innerHTML = `
+                    <h3>${item.popTitle}</h3>
+                    <p>Price: ${item.popPrice}</p>
+                    <p class="${statusClass}">Status: <strong>${item.isSoldOut}</strong></p>
+                `;
+
+                popItemDiv.prepend(imgElement)
+                popList.appendChild(popItemDiv);
+            });
+        }
+    </script>
+</body>
+</html>
